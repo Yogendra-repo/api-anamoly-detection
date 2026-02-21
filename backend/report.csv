@@ -1,0 +1,4 @@
+id,ip_address,request_count,payload_length,special_char_count,failed_attempts,prediction,timestamp
+1,192.168.1.1,50,120,2,0,normal,2026-02-21 15:07:23
+2,192.168.1.1,50,120,2,0,normal,2026-02-21 15:10:35
+3,192.168.1.5,300,900,35,10,attack,2026-02-21 15:11:08
