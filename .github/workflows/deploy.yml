@@ -4,6 +4,12 @@ on:
   push:
     branches: [ main ]
 
+# Ensure the GITHUB_TOKEN used by the workflow has write access to repository contents
+# so the deploy action can push to the `gh-pages` branch. This avoids the 403 for
+# github-actions[bot] seen when the token is read-only.
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
