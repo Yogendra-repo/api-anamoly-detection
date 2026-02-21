@@ -1,0 +1,1 @@
+["ip_request_count", "payload_size", "special_char_count", "entropy", "digit_ratio", "uppercase_ratio", "url_encoded_ratio", "sql_keyword_count", "xss_keyword_count", "unique_special_chars", "avg_token_length", "ip_failed_attempts", "endpoint_request_count", "endpoint_failed_attempts", "is_post", "is_put", "is_delete"]

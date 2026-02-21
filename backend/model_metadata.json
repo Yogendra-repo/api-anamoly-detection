@@ -1,0 +1,31 @@
+{
+  "model_type": "IsolationForest",
+  "contamination": 0.2,
+  "n_estimators": 100,
+  "features": [
+    "ip_request_count",
+    "payload_size",
+    "special_char_count",
+    "entropy",
+    "digit_ratio",
+    "uppercase_ratio",
+    "url_encoded_ratio",
+    "sql_keyword_count",
+    "xss_keyword_count",
+    "unique_special_chars",
+    "avg_token_length",
+    "ip_failed_attempts",
+    "endpoint_request_count",
+    "endpoint_failed_attempts",
+    "is_post",
+    "is_put",
+    "is_delete"
+  ],
+  "n_features": 17,
+  "training_samples": 2000,
+  "test_samples": 500,
+  "normal_samples": 2000,
+  "attack_samples": 500,
+  "roc_auc_score": 1.0,
+  "test_accuracy": 1.0
+}
