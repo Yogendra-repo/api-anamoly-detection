@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { GeoHeatmap } from "./GeoHeatmap";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -37,18 +38,28 @@ function App() {
   const [logs, setLogs] = useState([]);
   const [endpoints, setEndpoints] = useState([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [geoAttacks, setGeoAttacks] = useState([]);
 
   const fetchData = async () => {
     try {
-      const [statsRes, logsRes, endpointsRes] = await Promise.all([
+      const [statsRes, logsRes, endpointsRes, geoRes] = await Promise.all([
         axios.get("http://127.0.0.1:5000/stats"),
         axios.get("http://127.0.0.1:5000/recent-logs"),
-        axios.get("http://127.0.0.1:5000/endpoint-analytics")
+        axios.get("http://127.0.0.1:5000/endpoint-analytics"),
+        axios.get("http://127.0.0.1:5000/geo-attacks").catch(() => ({ data: [] }))
       ]);
       
       setStats(statsRes.data);
       setLogs(logsRes.data || []);
       setEndpoints(endpointsRes.data || []);
+      
+      const geoData = geoRes.data || [];
+      console.log(`[GEO-DEBUG] Received ${geoData.length} locations from backend`);
+      if (geoData.length > 0) {
+        console.log(`[GEO-DEBUG] Cities: ${geoData.map(g => g.city).join(", ")}`);
+        console.log(`[GEO-DEBUG] Sample location:`, geoData[0]);
+      }
+      setGeoAttacks(geoData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -204,6 +215,14 @@ function App() {
 
         {/* Charts Section */}
         <section className="charts-section">
+          <div className="chart-container full-width">
+            <h2>🌍 Global Attack Heatmap</h2>
+            <div style={{fontSize: "12px", color: "#999", marginBottom: "10px", padding: "10px", backgroundColor: "#1a1a1a", borderRadius: "4px"}}>
+              📍 Locations on map: <strong>{geoAttacks.length}</strong>
+              {geoAttacks.length > 0 && <div style={{marginTop: "5px"}}>Cities: {geoAttacks.map(g => `${g.city}(${g.primary_decision[0]})`).join(", ")}</div>}
+            </div>
+            <GeoHeatmap attacks={geoAttacks} />
+          </div>
           <div className="chart-container">
             <h2>Detection Method Breakdown</h2>
             <Pie data={detectionPieData} options={chartOptions} />
